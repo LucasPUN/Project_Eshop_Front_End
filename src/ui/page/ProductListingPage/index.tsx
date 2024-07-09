@@ -9,49 +9,51 @@ import * as ProductApi from "../../../api/ProductListApi.ts";
 import {useNavigate} from "react-router-dom";
 import LoadingPage from "./component/LoadingPage.tsx";
 
-export default function ProductListingPage(){
-    const [productList,setProductList] = useState<ProductListDto[] | undefined>(undefined)
-    const navigate = useNavigate();
+export default function ProductListingPage() {
+  const [productList, setProductList] = useState<ProductListDto[] | undefined>(undefined)
+  const navigate = useNavigate();
 
-    const getAllProduct = async () => {
-        try {
-            const productInfo = await ProductApi.getAllProduct();
-            setProductList(productInfo);
-            document.title = "Home";
-        } catch (err){
-            navigate("/error")
-        }
-
+  const getAllProduct = async () => {
+    try {
+      const productInfo = await ProductApi.getAllProduct();
+      setProductList(productInfo);
+      document.title = "Home";
+    } catch (err) {
+      navigate("/error")
     }
 
-    useEffect(()=> {
-        getAllProduct();
-    },[])
+  }
 
-    return (
-        <>
-            <TopNavBar/>
-            <NoTransitionExample/>
-            <Container>
-                {
-                    productList?
-                        <Row xs={2} md={4} className="g-1">
-                        {
-                            productList.map((item) => (
-                                <ProductList product={item}/>
-                            ))
-                        }
-                        </Row> :
+  useEffect(() => {
+    getAllProduct();
+  }, [])
 
-                        <Row xs={2} md={4} className="g-1">
-                        {
-                            Array.from({ length: 8 }).map(() => (
-                                <LoadingPage/>
-                            ))
-                        }
-                        </Row>
-                }
-            </Container>
-        </>
-    )
+  return (
+    <>
+      <TopNavBar/>
+      <Container>
+
+        <NoTransitionExample/>
+
+        {
+          productList ?
+            <Row xs={2} md={4} className="g-1">
+              {
+                productList.map((item) => (
+                  <ProductList product={item}/>
+                ))
+              }
+            </Row> :
+
+            <Row xs={2} md={4} className="g-1">
+              {
+                Array.from({length: 8}).map(() => (
+                  <LoadingPage/>
+                ))
+              }
+            </Row>
+        }
+      </Container>
+    </>
+  )
 }

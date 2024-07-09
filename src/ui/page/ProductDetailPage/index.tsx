@@ -2,14 +2,14 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Col, Container, Row, Spinner} from "react-bootstrap";
 import TopNavBar from "../../component/TopNavBar.tsx";
 import QuantitySelector from "../../component/QuantitySelector.tsx";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {ProductDetailDto} from "../../../data/ProductListDto.ts";
 import Loading from "../../component/Loading.tsx";
 import * as ProductApi from "../../../api/ProductListApi.ts"
 import * as CartItemApi from "../../../api/CartItemApi.ts";
 import {CartItemLengthContext, LoginUserContext} from "../../../App.tsx";
 import AddedToCartToast from "./compeonent/AddedToCartToast.tsx";
-
+import ReactImageMagnify from 'react-image-magnify';
 
 type Params = {
     productId: string
@@ -130,38 +130,43 @@ export default function ProductDetailPage() {
             <TopNavBar/>
             {
                 productDetail ?
-                    <Container>
-                        <Row className="justify-content-center align-items-center" style={{height: "80vh"}}>
-                            <Col md={6}>
-                                <div
-                                    style={{
-                                        backgroundImage: `url('${productDetail.image_url}')`,
-                                        backgroundSize: 'contain',
-                                        backgroundPosition: 'center',
-                                        backgroundRepeat: "no-repeat",
-                                        height: '400px', // Adjust the height as needed
+                  <Container style={{width: '100vw', height: '100vh'}}>
+                      <Row className="justify-content-center align-items-center">
+                          <Col md={6}>
+                              <div style={{ width: '500px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                  <ReactImageMagnify
+                                    {...{
+                                        smallImage: {
+                                            alt: productDetail.name,
+                                            isFluidWidth: true,
+                                            src: productDetail.image_url,
+                                        },
+                                        largeImage: {
+                                            src: productDetail.image_url,
+                                            width: 1250,
+                                            height: 1875,
+                                        },
+                                        enlargedImageContainerDimensions: {
+                                            width: '100%',
+                                            height: '100%',
+                                        },
                                     }}
-                                />
-                            </Col>
+                                  />
+                              </div>
+                          </Col>
 
-                            <Col md={6}>
-                                <div className="shadow p-5 mb-5 rounded bg-black text-white bg-opacity-50">
-                                    <h1>{productDetail.name}</h1>
+                          <Col md={6}>
+                              <div className="shadow p-5 mb-5 rounded bg-black text-white bg-opacity-50" style={{ width: '100%' }}>
+                                  <h1>{productDetail.name}</h1>
+                                  <h3>Price: ${productDetail.price}</h3>
+                                  <h3>Description:</h3>
+                                  <p>{productDetail.description}</p>
+                              </div>
 
-                                    <h3>Price: </h3>
-
-                                    <h3>${productDetail.price}</h3>
-
-                                    <h3>Description</h3>
-
-                                    <h3>{productDetail.description}</h3>
-                                </div>
-
-                                {renderSelectorAndButton(productDetail)}
-
-                            </Col>
-                        </Row>
-                    </Container> :
+                              {renderSelectorAndButton(productDetail)}
+                          </Col>
+                      </Row>
+                  </Container> :
                     <Loading/>
             }
             <AddedToCartToast showToast={showToast} setShowToast={setShowToast} quantity={quantity} productDetail={productDetail}/>
