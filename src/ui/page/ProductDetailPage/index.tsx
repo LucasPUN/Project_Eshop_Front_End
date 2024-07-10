@@ -2,13 +2,14 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Col, Container, Row, Spinner} from "react-bootstrap";
 import TopNavBar from "../../component/TopNavBar.tsx";
 import QuantitySelector from "../../component/QuantitySelector.tsx";
-import React, {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ProductDetailDto} from "../../../data/ProductListDto.ts";
 import Loading from "../../component/Loading.tsx";
 import * as ProductApi from "../../../api/ProductListApi.ts"
 import * as CartItemApi from "../../../api/CartItemApi.ts";
 import {CartItemLengthContext, LoginUserContext} from "../../../App.tsx";
 import AddedToCartToast from "./compeonent/AddedToCartToast.tsx";
+// @ts-ignore
 import ReactImageMagnify from 'react-image-magnify';
 
 type Params = {

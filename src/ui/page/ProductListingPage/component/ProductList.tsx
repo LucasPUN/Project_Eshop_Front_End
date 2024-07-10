@@ -15,14 +15,16 @@ export default function ProductList({product}: Props) {
           width: "600px",
           height: "600px"
         }}>
-          <div style={{
-            height: "70%",
-            backgroundImage: `url(${product.image_url})`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "cover"
-          }}>
+          <div
+            className="image-container"
+            style={{
+              backgroundImage: `url(${product.image_url})`,
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundImage = `url(${product.image_hover_url})`}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundImage = `url(${product.image_url})`}
+          >
           </div>
+
 
           <div>
             <Card.Body

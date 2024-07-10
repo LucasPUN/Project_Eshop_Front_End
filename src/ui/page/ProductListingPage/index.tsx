@@ -45,7 +45,7 @@ export default function ProductListingPage() {
               }
             </Row> :
 
-            <Row xs={2} md={4} className="g-1">
+            <Row  xs={1} sm={2} md={3} lg={4} className="g-1">
               {
                 Array.from({length: 8}).map(() => (
                   <LoadingPage/>
