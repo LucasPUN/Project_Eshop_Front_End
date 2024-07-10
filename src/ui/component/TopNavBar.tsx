@@ -93,7 +93,7 @@ export default function TopNavBar() {
                 </Container>
 
             </Navbar>
-            )
+
         </>
     )
 }

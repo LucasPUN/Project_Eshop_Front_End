@@ -130,8 +130,14 @@ export default function ProductDetailPage() {
             <TopNavBar/>
             {
                 productDetail ?
-                  <Container style={{width: '100vw', height: '100vh'}}>
+                  <Container
+                    style={{
+                        width: '100vw',
+                        height: '100vh',
+                        paddingTop: '5%'
+                    }}>
                       <Row className="justify-content-center align-items-center">
+
                           <Col md={6}>
                               <div style={{ width: '500px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                   <ReactImageMagnify
@@ -165,6 +171,7 @@ export default function ProductDetailPage() {
 
                               {renderSelectorAndButton(productDetail)}
                           </Col>
+
                       </Row>
                   </Container> :
                     <Loading/>

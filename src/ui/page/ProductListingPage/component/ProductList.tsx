@@ -10,14 +10,13 @@ export default function ProductList({product}: Props) {
   return (
 
     <Col key={product.product_id}>
-      <div className="d-flex justify-content-center mt-5 mb-5">
+      <div className="d-flex justify-content-center mt-4 mb-1">
         <Card style={{
-          width: "500px",
-          height: "500px"
+          width: "600px",
+          height: "600px"
         }}>
           <div style={{
-            width: "100%",
-            height: "80%",
+            height: "70%",
             backgroundImage: `url(${product.image_url})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
@@ -25,24 +24,44 @@ export default function ProductList({product}: Props) {
           }}>
           </div>
 
-          <div >
-            <Card.Body>
+          <div>
+            <Card.Body
+              className="d-flex flex-column align-items-center"
+              style={{
+                minHeight: "100px"}}
+            >
 
-              <Card.Title style={{
-                height: "50px"}}>{product.name}</Card.Title>
+
+              <Card.Title
+                style={{
+                  height: "90px"
+                }}>
+                {product.name}
+              </Card.Title>
 
 
-              <Card.Text>
+
+              <Card.Text style={{
+                height: "10px"
+              }}>
                 ${product.price}
               </Card.Text>
 
 
-              <div className="d-flex justify-content-center">
-                <Link to={`/product/${product.product_id}`}>
-                  <button className="btn btn-outline-info">Details</button>
-                </Link>
-              </div>
+
             </Card.Body>
+
+
+              <Link to={`/product/${product.product_id}`}>
+                <button className="btn btn-outline-info " style={{
+                  width: "90%",
+                  marginLeft: "5%",
+                  marginBottom: "5%"
+                }}>Details
+                </button>
+
+              </Link>
+
           </div>
 
         </Card>
