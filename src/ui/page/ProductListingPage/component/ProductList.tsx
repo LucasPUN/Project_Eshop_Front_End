@@ -9,7 +9,7 @@ type Props = {
 export default function ProductList({product}: Props) {
   return (
 
-    <Col key={product.product_id}>
+    <Col key={product.id}>
       <div className="d-flex justify-content-center mt-4 mb-1">
         <Card style={{
           width: "600px",
@@ -54,7 +54,7 @@ export default function ProductList({product}: Props) {
             </Card.Body>
 
 
-              <Link to={`/product/${product.product_id}`}>
+              <Link to={`/product/${product.id}`}>
                 <button className="btn btn-outline-info " style={{
                   width: "90%",
                   marginLeft: "5%",

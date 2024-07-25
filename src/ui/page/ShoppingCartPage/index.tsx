@@ -54,7 +54,7 @@ export default function ShoppingCartPage() {
         try {
             setIsCheckout(true);
             const transactionData = await TransactionApi.prepareTransaction();
-            navigate(`/checkout/${transactionData.tid}`);
+            navigate(`/checkout/${transactionData.id}`);
         } catch (error){
             navigate("/error");
         }

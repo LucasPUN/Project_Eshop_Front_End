@@ -1,5 +1,5 @@
 export interface TransactionDto {
-    tid: number;
+    id: number;
     datetime: string;
     status: string;
     total: number;

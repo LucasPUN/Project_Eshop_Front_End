@@ -54,7 +54,7 @@ export default function ProductDetailPage() {
     const handleAddToCart = async () => {
         if (loginUser) {
             setIsAddingCart(true);
-            await CartItemApi.putCartItem(productDetail!.product_id, quantity);
+            await CartItemApi.putCartItem(productDetail!.id, quantity);
             setIsAddingCart(false);
             setShowToast(true);
             const data = await CartItemApi.getCartItemList();

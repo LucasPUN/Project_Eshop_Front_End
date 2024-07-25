@@ -1,5 +1,5 @@
 export interface ProductListDto {
-    product_id: number;
+    id: number;
     name:       string;
     image_url:  string;
     image_hover_url : string;
@@ -8,7 +8,7 @@ export interface ProductListDto {
 }
 
 export interface ProductDetailDto {
-    product_id:  number;
+    id:  number;
     name:        string;
     description: string;
     image_url:   string;

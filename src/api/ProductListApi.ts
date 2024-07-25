@@ -7,7 +7,7 @@ const baseUrl = getEnvConfig().baseUrl;
 export async function getAllProduct(): Promise<ProductListDto[]> {
     try {
         const response = await axios.get<ProductListDto[]>(
-            `${baseUrl}/public/product`);
+            `${baseUrl}/product`);
         return response.data;
     } catch (err) {
         console.error(err);
@@ -18,7 +18,7 @@ export async function getAllProduct(): Promise<ProductListDto[]> {
 export async function getProductDetail(pid:string): Promise<ProductDetailDto> {
     try {
         const response = await axios.get<ProductDetailDto>(
-            `${baseUrl}/public/product/${pid}`);
+            `${baseUrl}/product/${pid}`);
         return response.data;
     } catch (err) {
         console.error(err);
