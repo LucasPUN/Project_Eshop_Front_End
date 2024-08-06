@@ -1,45 +1,45 @@
-
-
 type Props = {
-    quantity: number,
-    handleMinus: () => void,
-    handlePlus: () => void
+  quantity: number,
+  handleMinus: () => void,
+  handlePlus: () => void
 }
 
-export default function QuantitySelector({quantity,handleMinus,handlePlus}: Props) {
-    return (
-        <>
-            <div className="d-flex ">
-            <button className="btn btn-outline-info"
+export default function QuantitySelector({quantity, handleMinus, handlePlus}: Props) {
+  return (
+    <>
+      <div className="d-flex"
+           style={{
+             width: "100%"
+           }}>
+        <button className="btn"
                 style={{
-                width:"40px",
-                height:"40px"
-            }}
-                    onClick={handleMinus}
-            >
-                -
-            </button>
+                  width: "100%",
+                  border: "1px solid black",
+                }}
+                onClick={handleMinus}
+        >
+          -
+        </button>
 
-            <div className="d-flex justify-content-center align-items-center"
-                style={{
-                width: "40px",
-                height: "40px",
-                border: "1px solid black",
-                backgroundColor:"whitesmoke"
-            }}>
-                {quantity}
-            </div>
+        <div className="d-flex justify-content-center align-items-center"
+             style={{
+               width: "100%",
+               border: "1px solid black",
+               backgroundColor: "whitesmoke"
+             }}>
+          {quantity}
+        </div>
 
-            <button className="btn btn-outline-info"
+        <button className="btn "
                 style={{
-                width: "40px",
-                height: "40px"
-            }}
-                    onClick={handlePlus}
-            >
-                +
-            </button>
-            </div>
-        </>
-    )
+                  width: "100%",
+                  border: "1px solid black",
+                }}
+                onClick={handlePlus}
+        >
+          +
+        </button>
+      </div>
+    </>
+  )
 }
