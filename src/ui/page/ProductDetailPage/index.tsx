@@ -67,14 +67,16 @@ export default function ProductDetailPage() {
     if (isAddingCart) {
       return (
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={handleAddToCart}
           disabled
           sx={{
             width: '100%',
-            backgroundColor: '#000000',  // 自定义背景颜色
+            borderColor: 'black',
+            color: 'black',
             '&:hover': {
-              backgroundColor: '#333333',  // 自定义悬停背景颜色
+              color: 'white',
+              backgroundColor: '#000000'
             },
           }}
         >
@@ -84,13 +86,15 @@ export default function ProductDetailPage() {
     } else {
       return (
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={handleAddToCart}
           sx={{
             width: '100%',
-            backgroundColor: '#000000',  // 自定义背景颜色
+            borderColor: 'black',
+            color: 'black',
             '&:hover': {
-              backgroundColor: '#333333',  // 自定义悬停背景颜色
+              color: 'white',
+              backgroundColor: '#000000'
             },
           }}
         >
@@ -136,7 +140,7 @@ export default function ProductDetailPage() {
               display="flex"
               justifyContent="center"
               alignItems="center"
-              height="50vh"
+              height="100vh"
             >
               <ReactImageMagnify
                 {...{
@@ -161,10 +165,7 @@ export default function ProductDetailPage() {
 
           <Grid item md={6}>
             <Box
-
-              mb={5}
-              borderRadius={2}
-              color="black"
+              sx={{padding: '12px'}}
             >
               <Typography variant="h3">{productDetail.name}</Typography>
               <Typography variant="h4">Price: ${productDetail.price}</Typography>

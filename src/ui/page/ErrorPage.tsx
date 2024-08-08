@@ -1,16 +1,17 @@
-import {Container} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import { Container, Box, Link } from "@mui/material";
 
 export default function ErrorPage() {
-    return (
-        <>
-            <Container className="d-flex justify-content-center">
-                <Link to="/">
-                    <img
-                        src="https://static.vecteezy.com/system/resources/previews/004/435/751/non_2x/404-error-page-with-black-cat-illustrations-not-found-system-updates-uploading-operation-computing-installation-programs-vector.jpg"/>
-                </Link>
-            </Container>
-
-        </>
-    )
+  return (
+    <Container>
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <Link href="/" underline="none">
+          <img
+            src="https://colorlib.com/wp/wp-content/uploads/sites/2/404-error-template-3.png"
+            alt="404 Error"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+        </Link>
+      </Box>
+    </Container>
+  );
 }

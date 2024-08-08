@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Typography, Button, Grid } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button} from '@mui/material';
 import { ProductListDto } from '../../../../data/ProductListDto';
 import { Link } from 'react-router-dom';
 
@@ -8,8 +8,7 @@ type Props = {
 
 export default function ProductList({ product }: Props) {
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-      <Card sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '20px'}}>
+      <Card sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <CardMedia
           component="img"
           height="300"
@@ -42,14 +41,13 @@ export default function ProductList({ product }: Props) {
             borderColor: 'black',
             color: 'black',
             '&:hover': {
-              borderColor: 'black',
-              backgroundColor: 'rgba(0, 0, 0, 0.1)',
+              color: 'white',
+              backgroundColor: '#000000'
             },
           }}
         >
           Details
         </Button>
       </Card>
-    </Grid>
   );
 }

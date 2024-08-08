@@ -1,109 +1,102 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner, faTrash} from "@fortawesome/free-solid-svg-icons";
+import { TableCell, TableRow, IconButton, CircularProgress, Typography } from "@mui/material";
 import QuantitySelector from "../../../component/QuantitySelector.tsx";
-import {CartItemDto} from "../../../../data/CartItemDto.ts";
-import {useContext, useState} from "react";
+import { CartItemDto } from "../../../../data/CartItemDto.ts";
+import { useContext, useState } from "react";
 import * as CartItemApi from "../../../../api/CartItemApi.ts";
 import QuantitySelectorLoading from "../../../component/QuantitySelectorLoading.tsx";
-import {CartItemLengthContext} from "../../../../App.tsx";
+import { CartItemLengthContext } from "../../../../App.tsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
-    item: CartItemDto,
-    cartItemList: CartItemDto[],
-    setCartItemList: (cartItemList: CartItemDto[]) => void,
-    calTotalPrice: (cartDataList: CartItemDto[]) => void
-}
+    item: CartItemDto;
+    cartItemList: CartItemDto[];
+    setCartItemList: (cartItemList: CartItemDto[]) => void;
+    calTotalPrice: (cartDataList: CartItemDto[]) => void;
+};
 
-export default function CartItemTableItem({item, cartItemList, setCartItemList, calTotalPrice}: Props) {
+export default function CartItemTableItem({ item, cartItemList, setCartItemList, calTotalPrice }: Props) {
     const [quantity, setQuantity] = useState<number>(item.cart_quantity);
     const [isPatchingQuantity, setIsPatchingQuantity] = useState<boolean>(false);
     const [isDeleting, setDeleting] = useState<boolean>(false);
     const cartItemContextValue = useContext(CartItemLengthContext);
 
-
-
     const handleMinus = async () => {
         if (quantity > 1) {
             setIsPatchingQuantity(true);
-            const data = await CartItemApi.patchCartItem(item.pid, quantity - 1);
-            setQuantity(data.cart_quantity);
-            setIsPatchingQuantity(false);
-            for (const cartItem of cartItemList){
-                if(cartItem.pid === item.pid){
-                    cartItem.cart_quantity = data.cart_quantity;
-                    calTotalPrice(cartItemList);
-                }
+            try {
+                const data = await CartItemApi.patchCartItem(item.pid, quantity - 1);
+                setQuantity(data.cart_quantity);
+                updateCartItem(data.cart_quantity);
+            } finally {
+                setIsPatchingQuantity(false);
             }
         }
-    }
+    };
 
     const handlePlus = async () => {
         if (quantity < item.stock) {
             setIsPatchingQuantity(true);
-            const data = await CartItemApi.patchCartItem(item.pid, quantity + 1);
-            setQuantity(data.cart_quantity);
-            setIsPatchingQuantity(false);
-            for (const cartItem of cartItemList){
-                if(cartItem.pid === item.pid){
-                    cartItem.cart_quantity = data.cart_quantity;
-                    calTotalPrice(cartItemList);
-                }
+            try {
+                const data = await CartItemApi.patchCartItem(item.pid, quantity + 1);
+                setQuantity(data.cart_quantity);
+                updateCartItem(data.cart_quantity);
+            } finally {
+                setIsPatchingQuantity(false);
             }
         }
-    }
+    };
 
     const handleDelete = async () => {
         setDeleting(true);
-        await CartItemApi.deleteCartItem(item.pid);
-        const updatedList = cartItemList.filter((cartItem) => (
-            cartItem.pid !== item.pid
-        ));
+        try {
+            await CartItemApi.deleteCartItem(item.pid);
+            const updatedList = cartItemList.filter((cartItem) => cartItem.pid !== item.pid);
+            setCartItemList(updatedList);
+            calTotalPrice(updatedList);
+            const data = await CartItemApi.getCartItemList();
+            cartItemContextValue?.updateMyValue(data.length);
+        } finally {
+            setDeleting(false);
+        }
+    };
+
+    const updateCartItem = (newQuantity: number) => {
+        const updatedList = cartItemList.map((cartItem) =>
+          cartItem.pid === item.pid ? { ...cartItem, cart_quantity: newQuantity } : cartItem
+        );
         setCartItemList(updatedList);
-        calTotalPrice(updatedList)
-        setDeleting(false);
-        const data = await CartItemApi.getCartItemList();
-        cartItemContextValue?.updateMyValue(data.length);
-    }
-
-
+        calTotalPrice(updatedList);
+    };
 
     const renderQuantitySelector = () => {
-        if (isPatchingQuantity) {
-            return (
-                <>
-                    <QuantitySelectorLoading/>
-                </>
-            )
-        } else {
-            return (
-                <>
-                    <QuantitySelector
-                        quantity={quantity}
-                        handleMinus={handleMinus}
-                        handlePlus={handlePlus}/>
-                </>
-            )
-        }
-    }
+        return isPatchingQuantity ? (
+          <QuantitySelectorLoading />
+        ) : (
+          <QuantitySelector quantity={quantity} handleMinus={handleMinus} handlePlus={handlePlus} />
+        );
+    };
 
     return (
-        <>
-            <tr>
-                <td><img src={item.image_url} height="120px"/></td>
-                <td>{item.name}</td>
-                <td>${item.price}</td>
-                <td>
-                    {renderQuantitySelector()}
-                </td>
-                <td>${(item.price * item.cart_quantity).toLocaleString()}</td>
-                <td>
-                    {
-                        isDeleting?
-                            <FontAwesomeIcon icon={faSpinner} spin/>:
-                            <FontAwesomeIcon icon={faTrash} onClick={handleDelete}/>
-                    }
-                </td>
-            </tr>
-        </>
-    )
+      <TableRow>
+          <TableCell>
+              <img src={item.image_url} alt={item.name} height="120px" />
+          </TableCell>
+          <TableCell>
+              <Typography variant="body2">{item.name}</Typography>
+          </TableCell>
+          <TableCell>
+              <Typography variant="body2">${item.price.toLocaleString()}</Typography>
+          </TableCell>
+          <TableCell>{renderQuantitySelector()}</TableCell>
+          <TableCell>
+              <Typography variant="body2">${(item.price * item.cart_quantity).toLocaleString()}</Typography>
+          </TableCell>
+          <TableCell>
+              <IconButton onClick={handleDelete} disabled={isDeleting}>
+                  {isDeleting ? <CircularProgress size={24} /> : <FontAwesomeIcon icon={faTrash}/>}
+              </IconButton>
+          </TableCell>
+      </TableRow>
+    );
 }

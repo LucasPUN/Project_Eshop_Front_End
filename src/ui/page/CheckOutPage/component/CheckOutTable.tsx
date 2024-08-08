@@ -1,32 +1,30 @@
-import {Table} from "react-bootstrap";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import CheckOutTableItem from "./CheckOutTableItem.tsx";
-import {TransactionDtoItem} from "../../../../data/TransactionDto.ts";
+import { TransactionDtoItem } from "../../../../data/TransactionDto.ts";
 
 type Props = {
-    itemList: TransactionDtoItem[]
-}
+    itemList: TransactionDtoItem[];
+};
 
-export default function CheckOutTable({itemList}: Props) {
+export default function CheckOutTable({ itemList }: Props) {
     return (
-        <>
-            <Table className="align-middle">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    itemList.map((item) => (
-                        <CheckOutTableItem item={item} key={item.tpid}/>
-                    ))
-                }
-                </tbody>
-            </Table>
-        </>
-    )
+      <TableContainer component={Paper}>
+          <Table>
+              <TableHead>
+                  <TableRow>
+                      <TableCell></TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Unit Price</TableCell>
+                      <TableCell>Quantity</TableCell>
+                      <TableCell>Subtotal</TableCell>
+                  </TableRow>
+              </TableHead>
+              <TableBody>
+                  {itemList.map((item) => (
+                    <CheckOutTableItem item={item} key={item.tpid} />
+                  ))}
+              </TableBody>
+          </Table>
+      </TableContainer>
+    );
 }

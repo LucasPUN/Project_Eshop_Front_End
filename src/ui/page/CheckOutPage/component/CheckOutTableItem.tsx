@@ -1,19 +1,28 @@
-import {TransactionDtoItem} from "../../../../data/TransactionDto.ts";
+import { TableCell, TableRow, Typography } from "@mui/material";
+import { TransactionDtoItem } from "../../../../data/TransactionDto.ts";
 
 type Props = {
-    item: TransactionDtoItem
-}
+    item: TransactionDtoItem;
+};
 
-export default function CheckOutTableItem({item}:Props){
+export default function CheckOutTableItem({ item }: Props) {
     return (
-        <>
-            <tr>
-                <td><img src={`${item.product.image_url}`} height="120px"/></td>
-                <td>{item.product.name}</td>
-                <td>${item.product.price.toLocaleString()}</td>
-                <td>{item.quantity}</td>
-                <td>${item.subtotal.toLocaleString()}</td>
-            </tr>
-        </>
-    )
+      <TableRow>
+          <TableCell>
+              <img src={item.product.image_url} alt={item.product.name} height="120px" />
+          </TableCell>
+          <TableCell>
+              <Typography variant="body2">{item.product.name}</Typography>
+          </TableCell>
+          <TableCell>
+              <Typography variant="body2">${item.product.price.toLocaleString()}</Typography>
+          </TableCell>
+          <TableCell>
+              <Typography variant="body2">{item.quantity}</Typography>
+          </TableCell>
+          <TableCell>
+              <Typography variant="body2">${item.subtotal.toLocaleString()}</Typography>
+          </TableCell>
+      </TableRow>
+    );
 }

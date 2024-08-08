@@ -27,13 +27,13 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
-    "react-image-magnify": "^2.7.4",
+    "react-image-magnify": "^2.1.1",
     "react-magnifier": "^3.0.4",
     "react-router-dom": "^6.20.1",
     "react-slick": "^0.30.2",
     "react-social-login-buttons": "^3.9.1",
     "slick-carousel": "^1.8.1",
-    "sort-by": "^1.2.0"
+    "sort-by": "^0.0.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

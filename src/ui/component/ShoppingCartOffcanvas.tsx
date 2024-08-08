@@ -1,80 +1,87 @@
-import {Button, Offcanvas, OffcanvasBody, Spinner} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Drawer, Button, Typography, IconButton, CircularProgress, Box } from "@mui/material";
 import ShoppingCartOffcanvasBody from "./ShoppingCartOffcanvasBody.tsx";
-import * as cartItemApi from "../../api/CartItemApi.ts"
-import {useState} from "react";
-import {CartItemDto} from "../../data/CartItemDto.ts";
-import {Link, useNavigate} from "react-router-dom";
+import * as cartItemApi from "../../api/CartItemApi.ts";
+import { CartItemDto } from "../../data/CartItemDto.ts";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "./Loading.tsx";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 type Props = {
-    show: boolean,
+    show: boolean;
     handleClose: () => void;
-}
+};
 
-export default function ShoppingCartOffcanvas({show, handleClose}: Props) {
+export default function ShoppingCartDrawer({ show, handleClose }: Props) {
     const navigate = useNavigate();
 
     const [cartDataList, setCartData] = useState<CartItemDto[] | undefined | null>(undefined);
 
-    const getShoppingCartDataList = async () => {
-        try {
-            const data = await cartItemApi.getCartItemList();
-            setCartData(data);
-        } catch (error) {
-            navigate("/error")
+    useEffect(() => {
+        if (show) {
+            const fetchCartData = async () => {
+                try {
+                    const data = await cartItemApi.getCartItemList();
+                    setCartData(data);
+                } catch (error) {
+                    navigate("/error");
+                }
+            };
+
+            fetchCartData();
+        } else {
+            setCartData(undefined);
         }
-    }
+    }, [show, navigate]);
 
     const calTotalPrice = (cartDataList: CartItemDto[]) => {
         if (!cartDataList || cartDataList.length === 0) {
             return 0;
         }
-        return cartDataList?.map((item): number => (
-            item.price * item.cart_quantity
-        )).reduce((total: number, item: number) => (
-            total + item
-        ))
-    }
+        return cartDataList
+          .map((item): number => item.price * item.cart_quantity)
+          .reduce((total: number, item: number) => total + item, 0);
+    };
 
     return (
-        <>
-            <Offcanvas
-                show={show}
-                onHide={handleClose}
-                onEnter={getShoppingCartDataList}
-                onExited={() => setCartData(undefined)}
-                placement={"end"}>
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>
-                        <div className="d-flex justify-content-between align-items-center ms-3">
-                            <div>
-                                <h3 className="mb-3">Shopping Cart</h3>
-                                Total:$
-                                {
-                                    cartDataList ?
-                                        calTotalPrice(cartDataList).toLocaleString() :
-                                        <Spinner animation="border" variant="dark" />
-                                }
-                            </div>
-
-                            <div className="ms-5">
-                                <Link to="/shoppingcart"><Button variant="outline-success" size="lg">Edit</Button></Link>
-                            </div>
-                        </div>
-                    </Offcanvas.Title>
-                </Offcanvas.Header>
-                <OffcanvasBody>
-                    {
-                        cartDataList ? (
-                            cartDataList.map((item) => (
-                                <ShoppingCartOffcanvasBody cartItemDto={item} key={item.pid}/>
-                            ))
-                        ) : <Loading/>
-
-                    }
-
-                </OffcanvasBody>
-            </Offcanvas>
-        </>
-    )
+      <Drawer
+        anchor="right"
+        open={show}
+        onClose={handleClose}
+      >
+          <Box p={3} width={350} role="presentation">
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+                  <Typography variant="h6">Shopping Cart</Typography>
+                  <IconButton onClick={handleClose}>
+                      <FontAwesomeIcon icon={faXmark} />
+                  </IconButton>
+              </Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+                  <Typography variant="body1">
+                      Total:$
+                      {cartDataList ? (
+                        calTotalPrice(cartDataList).toLocaleString()
+                      ) : (
+                        <CircularProgress size={24} />
+                      )}
+                  </Typography>
+                  <Link to="/shoppingcart">
+                      <Button variant="outlined" size="medium" sx={{color: '#000000',  borderColor: 'black',}}>
+                          Edit
+                      </Button>
+                  </Link>
+              </Box>
+              <Box>
+                  {cartDataList ? (
+                    cartDataList.map((item) => (
+                      <ShoppingCartOffcanvasBody cartItemDto={item} key={item.pid} />
+                    ))
+                  ) : (
+                    <Loading />
+                  )}
+              </Box>
+          </Box>
+      </Drawer>
+    );
 }
