@@ -1,0 +1,23 @@
+[
+  {
+    "product_id": 1,
+    "name": "CATWALK 豆腐貓砂 原味 (Original)",
+    "image_url": "https://a-pets.com/product_images/k/740/Catwalk_cat_sand_original__27360_zoom.png",
+    "price": 50.00,
+    "has_stock": true
+  },
+  {
+    "product_id": 2,
+    "name": "CATWALK 豆腐貓砂 活性炭味 (Charcoal)",
+    "image_url": "https://a-pets.com/product_images/n/204/Catwalk_cat_sand_charcoal__12363_zoom.png",
+    "price": 60.00,
+    "has_stock": true
+  },
+  {
+    "product_id": 3,
+    "name": "CATWALK 豆腐貓砂 綠茶香味 (Green Tea)",
+    "image_url": "https://a-pets.com/product_images/s/024/Catwalk_cat_sand_green_tea__92267_zoom.png",
+    "price": 70.00,
+    "has_stock": true
+  }
+]

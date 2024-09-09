@@ -1,0 +1,15 @@
+body {
+    background-color: #FCFAFA;
+    /*background-image: url('https://themuralstore.com/images/product/HN002613.jpg');*/
+    background-repeat: repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.image-container {
+    height: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    transition: background-image 1s ease-in-out;
+}

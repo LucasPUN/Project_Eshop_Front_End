@@ -1,0 +1,28 @@
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    width: 100%; /* 确保容器占满可用空间 */
+}
+
+.marquee-content {
+    display: flex;
+    animation: marquee 20s linear infinite; /* 关键帧动画 */
+}
+
+.marquee-content img {
+    width: 150px; /* 图片宽度 */
+    height: auto;
+    object-fit: contain;
+    margin-right: 20px; /* 图片间距 */
+}
+
+/* 定义无缝滚动的关键帧动画 */
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%); /* 移动一半的宽度，这样可以实现无缝滚动 */
+    }
+}
