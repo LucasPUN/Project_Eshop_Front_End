@@ -12,7 +12,7 @@ export default function TransactionPage() {
   const navigate = useNavigate();
   const loginUser = useContext(LoginUserContext);
   const [transactionData, setTransactionData] = useState<TransactionDto[] | undefined>(undefined);
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('ALL');
 
   const getTransactionData = async () => {
     try {
@@ -38,7 +38,7 @@ export default function TransactionPage() {
 
   // Filter transactions based on selected status
   const filteredTransactions = transactionData?.filter(order =>
-    statusFilter === 'all' || order.status === statusFilter
+    statusFilter === 'ALL' || order.status === statusFilter
   );
 
   return (
@@ -57,7 +57,7 @@ export default function TransactionPage() {
             onChange={handleStatusChange}
           >
             <MenuItem value="ALL">ALL</MenuItem>
-            <MenuItem value="PREPARE">PREPARE</MenuItem>
+            <MenuItem value="PREPARE">PENDING</MenuItem>
             <MenuItem value="SUCCESS">SUCCESS</MenuItem>
             {/* Add more status options if needed */}
           </Select>
