@@ -46,7 +46,7 @@ export default function LoginPage() {
         <>
             <TopNavBar/>
             <Container>
-                <div className="border border-dark rounded p-5">
+                <div className="border border-dark rounded p-5 m-5">
                     <Form
                         onSubmit={handleSubmit}
                     >
@@ -71,7 +71,7 @@ export default function LoginPage() {
                             isLoginFail&&
                             <h4><Badge style={{width:"100%",marginBottom:"10px",height:"40px",padding:"10px"}} bg="danger">Login failed</Badge></h4>
                         }
-                        <Button variant="primary" type="submit" style={{width: "100%"}}>
+                        <Button variant="primary" type="submit" style={{width: "100%", backgroundColor: "black"}}>
                             Submit
                         </Button>
                     </Form>
