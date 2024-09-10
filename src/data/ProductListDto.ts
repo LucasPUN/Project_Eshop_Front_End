@@ -5,6 +5,7 @@ export interface ProductListDto {
     image_hover_url : string;
     price:      number;
     has_stock:  boolean;
+  category: string;
 }
 
 export interface ProductDetailDto {

@@ -13,12 +13,15 @@ import Footer from "../../component/Footer.tsx";
 
 export default function ProductListingPage() {
   const [productList, setProductList] = useState<ProductListDto[] | undefined>(undefined);
+  const [filteredProductList, setFilteredProductList] = useState<ProductListDto[] | undefined>(undefined);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const getAllProduct = async () => {
     try {
       const productInfo = await ProductApi.getAllProduct();
       setProductList(productInfo);
+      setFilteredProductList(productInfo);
       document.title = "Home";
     } catch (err) {
       navigate("/error");
@@ -29,9 +32,23 @@ export default function ProductListingPage() {
     getAllProduct();
   }, []);
 
+  useEffect(() => {
+    if (productList) {
+      if (selectedCategory) {
+        setFilteredProductList(productList.filter(product => product.category === selectedCategory));
+      } else {
+        setFilteredProductList(productList);
+      }
+    }
+  }, [selectedCategory, productList]);
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+  };
+
   return (
     <>
-      <TopNavBar />
+      <TopNavBar onCategorySelect={handleCategorySelect} />
       <CarouselImage />
       <InfiniteScroll />
 
@@ -43,9 +60,9 @@ export default function ProductListingPage() {
           minHeight: 'calc(100vh - 64px)' // Ensure it covers the full height minus header
         }}
       >
-        {productList ? (
+        {filteredProductList ? (
           <Grid container spacing={3}>
-            {productList.map((item) => (
+            {filteredProductList.map((item) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
                 <ProductList product={item} />
               </Grid>
