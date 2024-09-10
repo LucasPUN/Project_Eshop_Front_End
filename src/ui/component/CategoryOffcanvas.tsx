@@ -5,7 +5,7 @@ interface CategoryOffcanvasProps {
   show: boolean;
   handleClose: () => void;
   categories: string[];
-  onCategorySelect: (category: string) => void; // New prop
+  onCategorySelect: (category: string) => void;
 }
 
 const CategoryOffcanvas: React.FC<CategoryOffcanvasProps> = ({ show, handleClose, categories, onCategorySelect }) => {
@@ -14,6 +14,12 @@ const CategoryOffcanvas: React.FC<CategoryOffcanvasProps> = ({ show, handleClose
       <div style={{ width: 250, padding: 16 }}>
         <Typography variant="h6" gutterBottom>商品類別</Typography>
         <List>
+          <ListItem button onClick={() => {
+            onCategorySelect("All"); // Notify parent that "All" is selected
+            handleClose(); // Close the drawer
+          }}>
+            <ListItemText primary="All" />
+          </ListItem>
           {categories.map((category, index) => (
             <ListItem
               button

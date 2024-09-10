@@ -17,27 +17,27 @@ export default function ProductListingPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const getAllProduct = async () => {
+  const fetchAllProducts = async () => {
     try {
-      const productInfo = await ProductApi.getAllProduct();
-      setProductList(productInfo);
-      setFilteredProductList(productInfo);
+      const products = await ProductApi.getAllProduct();
+      setProductList(products);
+      setFilteredProductList(products);
       document.title = "Home";
-    } catch (err) {
+    } catch (error) {
       navigate("/error");
     }
   };
 
   useEffect(() => {
-    getAllProduct();
+    fetchAllProducts();
   }, []);
 
   useEffect(() => {
     if (productList) {
-      if (selectedCategory) {
-        setFilteredProductList(productList.filter(product => product.category === selectedCategory));
-      } else {
+      if (selectedCategory === "All" || selectedCategory === null) {
         setFilteredProductList(productList);
+      } else {
+        setFilteredProductList(productList.filter(product => product.category === selectedCategory));
       }
     }
   }, [selectedCategory, productList]);
@@ -57,28 +57,32 @@ export default function ProductListingPage() {
           width: '100%',
           padding: '16px',
           backgroundColor: '#F5F5F5', // Light gray background
-          minHeight: 'calc(100vh - 64px)' // Ensure it covers the full height minus header
+          minHeight: 'calc(100vh - 64px)', // Ensure it covers the full height minus header
         }}
       >
-        {filteredProductList ? (
-          <Grid container spacing={3}>
-            {filteredProductList.map((item) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
-                <ProductList product={item} />
+        <Grid container spacing={3}>
+          {filteredProductList ? (
+            filteredProductList.length > 0 ? (
+              filteredProductList.map((item) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
+                  <ProductList product={item} />
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={12}>
+                <Box sx={{ textAlign: 'center', padding: '16px' }}>No products found</Box>
               </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Grid container spacing={3}>
-            {Array.from({ length: 8 }).map((_, index) => (
+            )
+          ) : (
+            Array.from({ length: 8 }).map((_, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                 <LoadingPage />
               </Grid>
-            ))}
-          </Grid>
-        )}
+            ))
+          )}
+        </Grid>
       </Box>
-      <Footer/>
+      <Footer />
     </>
   );
 }

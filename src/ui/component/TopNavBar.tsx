@@ -56,9 +56,9 @@ export default function TopNavBar({ onCategorySelect }: TopNavBarProps) {
   };
 
   useEffect(() => {
+    getAllProduct();
     if (loginUser) {
       getCartItemListLength();
-      getAllProduct();
     }
   }, [loginUser]);
 
@@ -101,7 +101,12 @@ export default function TopNavBar({ onCategorySelect }: TopNavBarProps) {
   return (
     <>
       <ShoppingCartOffcanvas show={showCart} handleClose={handleCloseCart} />
-      <CategoryOffcanvas show={showCategory} handleClose={handleCloseCategory} categories={categories} onCategorySelect={handleCategorySelect} />
+      <CategoryOffcanvas
+        show={showCategory}
+        handleClose={handleCloseCategory}
+        categories={categories}
+        onCategorySelect={handleCategorySelect}
+      />
       <AppBar position="sticky" sx={{ backgroundColor: '#000000' }}>
         <Toolbar>
           <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
